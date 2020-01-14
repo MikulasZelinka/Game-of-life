@@ -165,6 +165,8 @@ class Application:
         # Fixes toggle mode as add or remove mode
         self.edit_toggle_mode = None
 
+        self.on_new_board()
+
     def create_top_frame(self, master: Tk) -> None:
         """Create the top frame (heading)."""
 
@@ -498,9 +500,7 @@ class Application:
                         self.edit_toggle_mode = "add"
                         board.add(i, j)
 
-        if (self.board == None or
-            self.anim_board.generation > 0 or
-            self.animator.is_running):
+        if self.board == None:
             return
 
         i, j = self.painter.cell_index_from_coord(event.x, event.y)
@@ -564,8 +564,6 @@ class Application:
         TkState.disable([self.reset_button])
 
         self.gen_number.config(text = 0)
-        self.speed_scale.set(self.INITIAL_TIME_PER_GEN)
-        self.zoom_scale.set(self.INITIAL_ZOOM)
 
         self.animator.board = self.anim_board
         self.painter.board = self.anim_board
